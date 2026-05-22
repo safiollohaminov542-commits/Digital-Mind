@@ -5,30 +5,37 @@
 <style>
     /* ==================== ROOT VARIABLES ==================== */
     :root {
-        --bg-primary: #f5f7fa;
+        --bg-primary: #f8fafc;
         --bg-secondary: #ffffff;
-        --bg-tertiary: #f0f2f5;
+        --bg-tertiary: #f1f5f9;
         --bg-card: #ffffff;
-        --bg-column: #f8f9fa;
-        --border-color: #e9ecef;
-        --border-light: #f1f3f5;
-        --text-primary: #212529;
-        --text-secondary: #6c757d;
-        --text-tertiary: #adb5bd;
+        --bg-column: #f8fafc;
+        --border-color: #e2e8f0;
+        --border-light: #f1f5f9;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --text-tertiary: #94a3b8;
         --accent-blue: #3b82f6;
         --accent-purple: #8b5cf6;
-        --accent-green: #22c55e;
+        --accent-green: #10b981;
         --accent-red: #ef4444;
         --accent-orange: #f59e0b;
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-        --shadow-md: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-        --shadow-xl: 0 8px 24px -4px rgba(0, 0, 0, 0.1);
-        --transition: all 0.2s ease;
+        --accent-indigo: #6366f1;
+        --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+        --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+        --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         --radius-sm: 6px;
         --radius-md: 10px;
         --radius-lg: 14px;
-        --radius-xl: 18px;
+        --radius-xl: 20px;
+        --radius-2xl: 24px;
+        --glass-bg: rgba(255,255,255,0.85);
+        --glass-border: rgba(255,255,255,0.3);
     }
 
     * {
@@ -37,48 +44,63 @@
         box-sizing: border-box;
     }
 
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
     .kanban-wrapper {
         display: flex;
         flex-direction: column;
         height: 100vh;
         background: var(--bg-primary);
         overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
     }
+
 
     /* ==================== HEADER ==================== */
     .kanban-header {
-        background: var(--bg-secondary);
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid var(--border-color);
-        padding: 10px 20px;
+        padding: 12px 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
         gap: 12px;
         z-index: 20;
+        position: sticky;
+        top: 0;
     }
 
     .header-left {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
     }
 
     .board-icon {
-        width: 38px;
-        height: 38px;
-        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
         border-radius: var(--radius-md);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 18px;
+        color: white;
         cursor: pointer;
         transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(59,130,246,0.3);
     }
 
     .board-icon:hover {
-        transform: scale(1.02);
+        transform: scale(1.05) rotate(-2deg);
+        box-shadow: 0 6px 16px rgba(59,130,246,0.4);
     }
 
     .board-title-box {
@@ -88,12 +110,13 @@
 
     .board-title {
         font-size: 18px;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--text-primary);
+        letter-spacing: -0.3px;
     }
 
     .board-stats {
-        font-size: 11px;
+        font-size: 12px;
         color: var(--text-tertiary);
         margin-top: 2px;
     }
@@ -109,23 +132,27 @@
         flex-wrap: wrap;
     }
 
+
     /* ==================== FILTERS ==================== */
     .filters-bar {
-        background: var(--bg-secondary);
-        padding: 8px 20px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 12px 24px;
         border-bottom: 1px solid var(--border-color);
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 10px;
         align-items: center;
         z-index: 15;
-        overflow-x: auto;
+        position: sticky;
+        top: 60px;
     }
 
     .filters-left {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 10px;
         align-items: center;
         flex: 1;
     }
@@ -133,50 +160,89 @@
     .filters-right {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 10px;
         align-items: center;
     }
 
     .filter-group {
         display: flex;
         align-items: center;
-        gap: 6px;
-        background: var(--bg-tertiary);
-        padding: 6px 12px;
+        gap: 8px;
+        background: var(--bg-secondary);
+        padding: 8px 14px;
         border-radius: var(--radius-md);
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
+        transition: var(--transition);
+        box-shadow: var(--shadow-xs);
+        height: 40px;
+    }
+
+    .filter-group:hover {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+    }
+
+    .filter-group:focus-within {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
     }
 
     .filter-group.primary {
+        border-color: rgba(59,130,246,0.25);
+        background: rgba(59, 130, 246, 0.03);
+    }
+
+    .filter-group.primary:hover,
+    .filter-group.primary:focus-within {
         border-color: var(--accent-blue);
-        background: rgba(59, 130, 246, 0.05);
+        background: rgba(59, 130, 246, 0.06);
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
     }
 
     .filter-group i {
         color: var(--accent-blue);
-        font-size: 12px;
+        font-size: 13px;
+        flex-shrink: 0;
     }
 
     .filter-group input, .filter-group select {
         background: transparent;
         border: none;
         color: var(--text-primary);
-        padding: 4px 0;
-        font-size: 12px;
-        outline: none;
-    }
-
-    .filter-group.primary input, .filter-group.primary select {
+        padding: 2px 0;
         font-size: 13px;
         font-weight: 500;
+        outline: none;
+        min-width: 0;
+    }
+
+    .filter-group input::placeholder {
+        color: var(--text-tertiary);
+        font-weight: 400;
+    }
+
+    .filter-group select {
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        padding-right: 4px;
     }
 
     .filter-label {
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--accent-blue);
         white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
     }
+
+    .filter-separator {
+        color: var(--text-tertiary);
+        font-size: 12px;
+        padding: 0 2px;
+    }
+
 
     /* ==================== KANBAN MAIN ==================== */
     .kanban-main {
@@ -189,13 +255,14 @@
         height: 100%;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 16px;
+        padding: 20px 24px;
         transition: background 0.3s ease;
+        scroll-behavior: smooth;
     }
 
     .kanban-board {
         display: flex;
-        gap: 16px;
+        gap: 18px;
         align-items: flex-start;
         height: 100%;
         min-width: min-content;
@@ -203,44 +270,61 @@
 
     /* ==================== COLUMN ==================== */
     .kanban-column {
-        min-width: 300px;
-        width: 300px;
-        max-height: calc(100vh - 140px);
+        min-width: 320px;
+        width: 320px;
+        max-height: calc(100vh - 180px);
         background: var(--bg-column);
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-xl);
         display: flex;
         flex-direction: column;
         box-shadow: var(--shadow-sm);
         border: 1px solid var(--border-color);
         flex-shrink: 0;
+        transition: var(--transition);
+    }
+
+    .kanban-column:hover {
+        box-shadow: var(--shadow-md);
     }
 
     .kanban-column.drag-over {
-        border-left: 2px solid var(--accent-blue);
-        background: var(--bg-tertiary);
+        border-color: var(--accent-blue);
+        background: rgba(59,130,246,0.03);
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
     }
 
     .column-header {
-        padding: 10px 14px;
+        padding: 14px 16px;
         background: var(--bg-secondary);
-        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 2px solid var(--border-color);
         flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
 
     .column-left {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
     }
 
     .column-drag-handle {
         cursor: grab;
         color: var(--text-tertiary);
         font-size: 12px;
+        padding: 4px;
+        border-radius: 4px;
+        transition: var(--transition-fast);
+    }
+
+    .column-drag-handle:hover {
+        color: var(--accent-blue);
+        background: rgba(59,130,246,0.08);
     }
 
     .column-drag-handle:active {
@@ -248,69 +332,85 @@
     }
 
     .column-title h3 {
-        font-size: 13px;
-        font-weight: 600;
+        font-size: 14px;
+        font-weight: 700;
         color: var(--text-primary);
+        letter-spacing: -0.2px;
     }
 
     .column-badge {
-        background: rgba(59, 130, 246, 0.1);
+        background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(99,102,241,0.1));
         border-radius: 20px;
-        padding: 2px 8px;
+        padding: 3px 10px;
         font-size: 11px;
-        font-weight: 500;
+        font-weight: 700;
         color: var(--accent-blue);
+        min-width: 24px;
+        text-align: center;
     }
 
     .column-actions {
         display: flex;
-        gap: 10px;
+        gap: 6px;
+        opacity: 0;
+        transition: var(--transition-fast);
+    }
+
+    .kanban-column:hover .column-actions {
+        opacity: 1;
     }
 
     .column-actions i {
         cursor: pointer;
         color: var(--text-tertiary);
-        transition: var(--transition);
+        transition: var(--transition-fast);
         font-size: 12px;
+        padding: 5px;
+        border-radius: var(--radius-sm);
     }
 
     .column-actions i:hover {
         color: var(--accent-blue);
+        background: rgba(59,130,246,0.08);
     }
+
 
     /* Cards Container */
     .cards-container {
-        padding: 10px;
+        padding: 12px;
         flex: 1;
         overflow-y: auto;
-        min-height: 100px;
+        min-height: 80px;
     }
 
     .cards-container::-webkit-scrollbar {
-        width: 3px;
+        width: 4px;
     }
 
     .cards-container::-webkit-scrollbar-track {
-        background: var(--border-color);
-        border-radius: 10px;
+        background: transparent;
     }
 
     .cards-container::-webkit-scrollbar-thumb {
-        background: var(--accent-blue);
+        background: #cbd5e1;
         border-radius: 10px;
+    }
+
+    .cards-container::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-blue);
     }
 
     /* ==================== REQUEST CARD ==================== */
     .request-card {
         background: var(--bg-card);
-        border-radius: var(--radius-md);
-        padding: 10px;
+        border-radius: var(--radius-lg);
+        padding: 14px;
         margin-bottom: 10px;
         cursor: grab;
         transition: var(--transition);
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
         position: relative;
-        box-shadow: var(--shadow-sm);
+        box-shadow: var(--shadow-xs);
     }
 
     .request-card:active {
@@ -318,20 +418,23 @@
     }
 
     .request-card.dragging {
-        opacity: 0.5;
+        opacity: 0.4;
+        transform: rotate(2deg);
     }
 
     .request-card.drag-over-top {
-        border-top: 2px solid var(--accent-blue);
+        border-top: 3px solid var(--accent-blue);
+        margin-top: -2px;
     }
 
     .request-card.drag-over-bottom {
-        border-bottom: 2px solid var(--accent-blue);
+        border-bottom: 3px solid var(--accent-blue);
+        margin-bottom: -2px;
     }
 
     .request-card:hover {
-        transform: translateY(-1px);
-        border-color: var(--accent-blue);
+        transform: translateY(-2px);
+        border-color: rgba(59,130,246,0.4);
         box-shadow: var(--shadow-md);
     }
 
@@ -339,23 +442,24 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     .card-name {
-        font-weight: 600;
+        font-weight: 700;
         font-size: 13px;
-        color: var(--text-primary);
-        background: rgba(59, 130, 246, 0.08);
-        padding: 3px 8px;
-        border-radius: 16px;
+        color: var(--accent-blue);
+        background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(99,102,241,0.08));
+        padding: 4px 10px;
+        border-radius: 20px;
+        letter-spacing: -0.1px;
     }
 
     .card-actions {
         display: flex;
         gap: 4px;
         opacity: 0;
-        transition: var(--transition);
+        transition: var(--transition-fast);
     }
 
     .request-card:hover .card-actions {
@@ -366,55 +470,66 @@
         background: var(--bg-tertiary);
         border: none;
         border-radius: var(--radius-sm);
-        padding: 3px 6px;
+        padding: 5px 8px;
         cursor: pointer;
-        font-size: 10px;
+        font-size: 11px;
         color: var(--text-secondary);
+        transition: var(--transition-fast);
     }
 
     .card-actions button:hover {
         background: var(--accent-blue);
         color: white;
+        transform: scale(1.05);
     }
 
     .card-phone {
-        font-size: 11px;
+        font-size: 12px;
         color: var(--accent-blue);
         display: flex;
         align-items: center;
-        gap: 4px;
-        margin-bottom: 6px;
-        font-family: monospace;
+        gap: 6px;
+        margin-bottom: 8px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-weight: 500;
     }
 
     .card-info {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
 
     .info-tag {
         background: var(--bg-tertiary);
-        padding: 2px 6px;
-        border-radius: 12px;
-        font-size: 9px;
+        padding: 3px 8px;
+        border-radius: 16px;
+        font-size: 10px;
         color: var(--text-secondary);
         display: inline-flex;
         align-items: center;
-        gap: 3px;
+        gap: 4px;
+        font-weight: 500;
+        transition: var(--transition-fast);
     }
+
+    .info-tag:hover {
+        background: rgba(59,130,246,0.08);
+        color: var(--accent-blue);
+    }
+
 
     .files-preview {
         display: flex;
         gap: 6px;
-        margin-top: 6px;
+        margin-top: 8px;
         flex-wrap: wrap;
     }
 
     .file-thumb {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         background: var(--bg-tertiary);
         border-radius: var(--radius-sm);
         display: flex;
@@ -422,11 +537,14 @@
         justify-content: center;
         cursor: pointer;
         overflow: hidden;
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
+        transition: var(--transition-fast);
     }
 
     .file-thumb:hover {
         border-color: var(--accent-blue);
+        transform: scale(1.08);
+        box-shadow: var(--shadow-sm);
     }
 
     .file-thumb img, .file-thumb video {
@@ -439,40 +557,44 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 9px;
+        font-size: 10px;
         color: var(--text-tertiary);
-        margin-top: 6px;
-        padding-top: 6px;
+        margin-top: 8px;
+        padding-top: 8px;
         border-top: 1px solid var(--border-light);
     }
 
     /* Add Column Button */
     .add-column-btn {
-        min-width: 300px;
-        width: 300px;
+        min-width: 320px;
+        width: 320px;
         background: var(--bg-secondary);
-        border-radius: var(--radius-lg);
-        padding: 12px;
+        border-radius: var(--radius-xl);
+        padding: 16px;
         text-align: center;
         cursor: pointer;
         transition: var(--transition);
-        border: 1px dashed var(--border-color);
+        border: 2px dashed var(--border-color);
         color: var(--text-tertiary);
         flex-shrink: 0;
-        font-size: 12px;
+        font-size: 13px;
+        font-weight: 500;
     }
 
     .add-column-btn:hover {
-        background: var(--bg-tertiary);
+        background: rgba(59,130,246,0.03);
         border-color: var(--accent-blue);
         color: var(--accent-blue);
+        transform: translateY(-2px);
     }
 
     /* ==================== BOTTOM BOARDS PANEL ==================== */
     .bottom-panel {
-        background: var(--bg-secondary);
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-top: 1px solid var(--border-color);
-        padding: 6px 16px;
+        padding: 8px 20px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -488,18 +610,22 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 5px 14px;
+        padding: 7px 16px;
         border-radius: var(--radius-md);
         cursor: pointer;
         transition: var(--transition);
         background: var(--bg-tertiary);
         flex-shrink: 0;
         font-size: 12px;
+        font-weight: 500;
+        border: 1px solid transparent;
     }
 
     .board-tab.active {
-        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
         color: white;
+        box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+        border-color: transparent;
     }
 
     .board-tab.active span {
@@ -510,14 +636,16 @@
         color: white;
     }
 
-    .board-tab:hover {
+    .board-tab:hover:not(.active) {
         transform: translateY(-1px);
+        border-color: var(--accent-blue);
+        background: rgba(59,130,246,0.05);
     }
 
     .board-tab-icon {
-        width: 24px;
-        height: 24px;
-        background: rgba(0, 0, 0, 0.1);
+        width: 26px;
+        height: 26px;
+        background: rgba(0, 0, 0, 0.08);
         border-radius: var(--radius-sm);
         display: flex;
         align-items: center;
@@ -531,9 +659,10 @@
     }
 
     .create-board-tab {
-        border: 1px dashed var(--border-color);
+        border: 1.5px dashed var(--border-color);
         background: transparent;
     }
+
 
     /* ==================== MODALS ==================== */
     .modal {
@@ -544,79 +673,119 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(3px);
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         align-items: center;
         justify-content: center;
     }
 
-    .modal-content {
-        background: var(--bg-secondary);
-        margin: auto;
-        border-radius: var(--radius-xl);
-        width: 90%;
-        max-width: 700px;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: var(--shadow-xl);
-        border: 1px solid var(--border-color);
-        animation: modalSlideIn 0.2s ease;
+    .modal.active {
+        display: flex;
     }
 
-    .modal-large {
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    .modal-content {
+        background: var(--bg-secondary);
+        border-radius: var(--radius-2xl);
+        width: 92%;
+        max-width: 700px;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--shadow-xl), 0 0 60px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color);
+        animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+    }
+
+    .modal-large .modal-content,
+    .modal-large.modal .modal-content {
         max-width: 850px;
     }
 
-    @keyframes modalSlideIn {
-        from { opacity: 0; transform: scale(0.98); }
-        to { opacity: 1; transform: scale(1); }
+    @keyframes modalIn {
+        from { opacity: 0; transform: scale(0.95) translateY(10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes modalOut {
+        from { opacity: 1; transform: scale(1) translateY(0); }
+        to { opacity: 0; transform: scale(0.95) translateY(10px); }
     }
 
     .modal-header {
-        padding: 16px 20px;
+        padding: 20px 24px;
         border-bottom: 1px solid var(--border-color);
         display: flex;
         justify-content: space-between;
         align-items: center;
         background: var(--bg-secondary);
-        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+        flex-shrink: 0;
     }
 
     .modal-header h2 {
         font-size: 18px;
+        font-weight: 700;
         color: var(--text-primary);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        letter-spacing: -0.3px;
     }
 
     .modal-header .close {
         font-size: 24px;
         cursor: pointer;
         color: var(--text-tertiary);
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        transition: var(--transition-fast);
     }
 
     .modal-header .close:hover {
         color: var(--accent-red);
+        background: rgba(239,68,68,0.08);
     }
 
     .modal-body {
-        padding: 20px;
-        max-height: 65vh;
+        padding: 24px;
         overflow-y: auto;
+        flex: 1;
+    }
+
+    .modal-body::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
     }
 
     .modal-footer {
-        padding: 14px 20px;
+        padding: 16px 24px;
         border-top: 1px solid var(--border-color);
         display: flex;
         justify-content: flex-end;
         gap: 10px;
+        flex-shrink: 0;
+        background: var(--bg-secondary);
+        border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
     }
+
 
     /* Forms */
     .form-group {
-        margin-bottom: 16px;
+        margin-bottom: 18px;
     }
 
     .form-group label {
@@ -624,67 +793,88 @@
         margin-bottom: 6px;
         color: var(--text-secondary);
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+    }
+
+    .form-group label i {
+        color: var(--accent-blue);
+        margin-right: 4px;
     }
 
     .form-group input, .form-group select, .form-group textarea {
         width: 100%;
-        padding: 8px 12px;
+        padding: 10px 14px;
         background: var(--bg-tertiary);
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
         border-radius: var(--radius-md);
         color: var(--text-primary);
-        font-size: 13px;
+        font-size: 14px;
+        font-weight: 500;
         transition: var(--transition);
     }
 
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
         outline: none;
         border-color: var(--accent-blue);
+        background: var(--bg-secondary);
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+
+    .form-group input::placeholder {
+        color: var(--text-tertiary);
+        font-weight: 400;
     }
 
     .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        gap: 14px;
     }
 
     /* Progress Bar */
     .progress-container {
-        margin-top: 8px;
+        margin-top: 10px;
     }
 
     .progress-bar {
         width: 100%;
-        height: 4px;
+        height: 5px;
         background: var(--bg-tertiary);
-        border-radius: 2px;
+        border-radius: 4px;
         overflow: hidden;
     }
 
     .progress-fill {
         width: 0%;
         height: 100%;
-        background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-        transition: width 0.3s;
+        background: linear-gradient(90deg, var(--accent-blue), var(--accent-indigo));
+        transition: width 0.3s ease;
+        border-radius: 4px;
     }
 
     .file-list {
-        margin-top: 8px;
+        margin-top: 12px;
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 10px;
     }
 
     .file-item {
         background: var(--bg-tertiary);
-        border-radius: var(--radius-sm);
-        padding: 4px 10px;
+        border-radius: var(--radius-md);
+        padding: 8px 12px;
         display: flex;
         align-items: center;
-        gap: 6px;
-        font-size: 11px;
+        gap: 8px;
+        font-size: 12px;
         border: 1px solid var(--border-color);
+        transition: var(--transition-fast);
+    }
+
+    .file-item:hover {
+        border-color: var(--accent-blue);
+        background: rgba(59,130,246,0.03);
     }
 
     .file-item button {
@@ -692,11 +882,18 @@
         border: none;
         color: var(--accent-red);
         cursor: pointer;
+        padding: 2px;
+        border-radius: 4px;
+        transition: var(--transition-fast);
+    }
+
+    .file-item button:hover {
+        background: rgba(239,68,68,0.08);
     }
 
     /* View Modal */
     .view-modal-content {
-        max-width: 550px;
+        max-width: 600px;
     }
 
     .info-grid {
@@ -709,7 +906,14 @@
     .info-item {
         background: var(--bg-tertiary);
         border-radius: var(--radius-md);
-        padding: 12px;
+        padding: 14px;
+        transition: var(--transition-fast);
+        border: 1px solid transparent;
+    }
+
+    .info-item:hover {
+        border-color: var(--accent-blue);
+        background: rgba(59,130,246,0.03);
     }
 
     .info-label {
@@ -719,11 +923,14 @@
         display: flex;
         align-items: center;
         gap: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
     }
 
     .info-value {
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--text-primary);
     }
 
@@ -731,22 +938,26 @@
         grid-column: span 2;
     }
 
+
     .copy-btn {
         background: var(--accent-blue);
         border: none;
         color: white;
-        padding: 4px 10px;
+        padding: 6px 12px;
         border-radius: var(--radius-sm);
         cursor: pointer;
         font-size: 11px;
+        font-weight: 600;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
         margin-top: 4px;
+        transition: var(--transition-fast);
     }
 
     .copy-btn:hover {
-        background: var(--accent-purple);
+        background: var(--accent-indigo);
+        transform: translateY(-1px);
     }
 
     .media-gallery {
@@ -760,6 +971,11 @@
         text-align: center;
         position: relative;
         user-select: none;
+        transition: var(--transition-fast);
+    }
+
+    .media-item:hover {
+        transform: scale(1.03);
     }
 
     .media-item img, .media-item video {
@@ -768,8 +984,14 @@
         object-fit: cover;
         border-radius: var(--radius-md);
         background: var(--bg-tertiary);
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
         cursor: pointer;
+        transition: var(--transition-fast);
+    }
+
+    .media-item img:hover, .media-item video:hover {
+        border-color: var(--accent-blue);
+        box-shadow: var(--shadow-md);
     }
 
     .media-item .file-icon {
@@ -781,14 +1003,19 @@
         align-items: center;
         justify-content: center;
         font-size: 32px;
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
+        transition: var(--transition-fast);
+    }
+
+    .media-item .file-icon:hover {
+        border-color: var(--accent-blue);
     }
 
     .copy-media-btn {
         position: absolute;
         top: 5px;
         right: 5px;
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(15, 23, 42, 0.7);
         border: none;
         color: white;
         width: 28px;
@@ -798,47 +1025,63 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 11px;
+        transition: var(--transition-fast);
+        opacity: 0;
+    }
+
+    .media-item:hover .copy-media-btn {
+        opacity: 1;
     }
 
     .copy-media-btn:hover {
         background: var(--accent-blue);
+        transform: scale(1.1);
     }
 
     /* Buttons */
     .btn-primary {
-        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
         border: none;
-        padding: 8px 16px;
+        padding: 9px 18px;
         border-radius: var(--radius-md);
         color: white;
-        font-weight: 500;
-        font-size: 12px;
+        font-weight: 600;
+        font-size: 13px;
         cursor: pointer;
         transition: var(--transition);
+        box-shadow: 0 2px 8px rgba(59,130,246,0.25);
     }
 
     .btn-primary:hover {
         transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59,130,246,0.35);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
     }
 
     .btn-secondary {
-        background: var(--bg-tertiary);
-        border: 1px solid var(--border-color);
-        padding: 8px 16px;
+        background: var(--bg-secondary);
+        border: 1.5px solid var(--border-color);
+        padding: 9px 18px;
         border-radius: var(--radius-md);
         color: var(--text-primary);
-        font-size: 12px;
+        font-size: 13px;
+        font-weight: 500;
         cursor: pointer;
+        transition: var(--transition-fast);
     }
 
     .btn-secondary:hover {
-        background: var(--border-color);
+        background: var(--bg-tertiary);
+        border-color: var(--text-tertiary);
     }
 
     .btn-sm {
-        padding: 5px 12px;
-        font-size: 11px;
+        padding: 7px 14px;
+        font-size: 12px;
     }
 
     /* Color Picker */
@@ -850,55 +1093,91 @@
     }
 
     .color-option {
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         border-radius: var(--radius-sm);
         cursor: pointer;
-        border: 2px solid transparent;
+        border: 2.5px solid transparent;
+        transition: var(--transition-fast);
     }
 
     .color-option:hover {
-        transform: scale(1.05);
+        transform: scale(1.15);
+        box-shadow: var(--shadow-md);
     }
+
+    .color-option.selected {
+        border-color: var(--text-primary);
+        transform: scale(1.1);
+    }
+
 
     /* Toast */
     .toast {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 24px;
+        right: 24px;
         background: var(--bg-secondary);
-        border-left: 3px solid var(--accent-green);
+        border-left: 4px solid var(--accent-green);
         border-radius: var(--radius-md);
-        padding: 10px 16px;
+        padding: 12px 20px;
         color: var(--text-primary);
-        z-index: 1001;
+        z-index: 2000;
         box-shadow: var(--shadow-lg);
-        animation: slideInRight 0.3s ease;
+        animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         font-size: 13px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
+        from { transform: translateX(120%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
     }
 
     @keyframes slideOutRight {
         from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(120%); opacity: 0; }
     }
 
     .loading {
         text-align: center;
-        padding: 30px;
+        padding: 40px;
         color: var(--text-tertiary);
-        font-size: 13px;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
 
-    /* Responsive */
+    .empty-column-msg {
+        padding: 20px;
+        text-align: center;
+        color: var(--text-tertiary);
+        font-size: 12px;
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 1024px) {
+        .filters-bar {
+            padding: 10px 16px;
+        }
+        .filter-group {
+            padding: 6px 10px;
+            height: 36px;
+        }
+    }
+
     @media (max-width: 768px) {
+        .kanban-header {
+            padding: 10px 16px;
+        }
         .kanban-column {
-            min-width: 260px;
-            width: 260px;
+            min-width: 280px;
+            width: 280px;
         }
         .form-row {
             grid-template-columns: 1fr;
@@ -909,8 +1188,45 @@
         .full-width {
             grid-column: span 1;
         }
+        .modal-content {
+            width: 96%;
+            max-height: 92vh;
+            border-radius: var(--radius-xl);
+        }
+        .modal-header {
+            padding: 16px 18px;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+        .modal-body {
+            padding: 18px;
+        }
+        .modal-footer {
+            padding: 14px 18px;
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+        }
+        .filters-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .filters-left, .filters-right {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .kanban-column {
+            min-width: 260px;
+            width: 260px;
+        }
+        .header-actions {
+            width: 100%;
+            justify-content: flex-end;
+        }
     }
 </style>
+
 
 <div class="kanban-wrapper">
     <!-- Header -->
@@ -945,50 +1261,48 @@
     <!-- Filters -->
     <div class="filters-bar">
         <div class="filters-left">
-            <!-- PRIMARY: Нарх, Квадрат, Ошёна, Нарх/м² -->
             <div class="filter-group primary">
                 <i class="fas fa-credit-card"></i>
                 <span class="filter-label">Нарх:</span>
-                <input type="number" id="priceMinFilter" placeholder="аз" style="width:75px" oninput="filterRequests(); saveFilters()">
-                <span style="color:var(--text-tertiary)">—</span>
-                <input type="number" id="priceMaxFilter" placeholder="то" style="width:75px" oninput="filterRequests(); saveFilters()">
-                <span style="font-size:11px;color:var(--text-tertiary)">C</span>
+                <input type="number" id="priceMinFilter" placeholder="аз" style="width:80px" oninput="filterRequests(); saveFilters()">
+                <span class="filter-separator">—</span>
+                <input type="number" id="priceMaxFilter" placeholder="то" style="width:80px" oninput="filterRequests(); saveFilters()">
             </div>
             <div class="filter-group primary">
                 <i class="fas fa-ruler-combined"></i>
                 <span class="filter-label">м²:</span>
-                <input type="number" id="areaMinFilter" placeholder="аз" style="width:65px" oninput="filterRequests(); saveFilters()">
-                <span style="color:var(--text-tertiary)">—</span>
-                <input type="number" id="areaMaxFilter" placeholder="то" style="width:65px" oninput="filterRequests(); saveFilters()">
+                <input type="number" id="areaMinFilter" placeholder="аз" style="width:70px" oninput="filterRequests(); saveFilters()">
+                <span class="filter-separator">—</span>
+                <input type="number" id="areaMaxFilter" placeholder="то" style="width:70px" oninput="filterRequests(); saveFilters()">
             </div>
             <div class="filter-group primary">
                 <i class="fas fa-layer-group"></i>
                 <span class="filter-label">Ошёна:</span>
-                <input type="number" id="floorMinFilter" placeholder="аз" style="width:55px" oninput="filterRequests(); saveFilters()">
-                <span style="color:var(--text-tertiary)">—</span>
-                <input type="number" id="floorMaxFilter" placeholder="то" style="width:55px" oninput="filterRequests(); saveFilters()">
+                <input type="number" id="floorMinFilter" placeholder="аз" style="width:60px" oninput="filterRequests(); saveFilters()">
+                <span class="filter-separator">—</span>
+                <input type="number" id="floorMaxFilter" placeholder="то" style="width:60px" oninput="filterRequests(); saveFilters()">
             </div>
             <div class="filter-group primary">
                 <i class="fas fa-chart-line"></i>
                 <span class="filter-label">C/м²:</span>
-                <input type="number" id="priceM2MinFilter" placeholder="аз" style="width:75px" oninput="filterRequests(); saveFilters()">
-                <span style="color:var(--text-tertiary)">—</span>
-                <input type="number" id="priceM2MaxFilter" placeholder="то" style="width:75px" oninput="filterRequests(); saveFilters()">
+                <input type="number" id="priceM2MinFilter" placeholder="аз" style="width:80px" oninput="filterRequests(); saveFilters()">
+                <span class="filter-separator">—</span>
+                <input type="number" id="priceM2MaxFilter" placeholder="то" style="width:80px" oninput="filterRequests(); saveFilters()">
             </div>
         </div>
         <div class="filters-right">
             <div class="filter-group">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Ҷустуҷӯ..." oninput="filterRequests(); saveFilters()">
+                <input type="text" id="searchInput" placeholder="Ҷустуҷӯ..." style="width:120px" oninput="filterRequests(); saveFilters()">
             </div>
             <div class="filter-group">
                 <i class="fas fa-building"></i>
                 <select id="typeFilter" onchange="filterRequests(); saveFilters()">
                     <option value="all">Ҳама</option>
-                    <option value="новостройка">🏗️ Навсохт</option>
-                    <option value="коробка">📦 Блок</option>
-                    <option value="котлован">🕳️ Котлован</option>
-                    <option value="Коммерческая">🏢 Тиҷоратӣ</option>
+                    <option value="новостройка">Навсохт</option>
+                    <option value="коробка">Блок</option>
+                    <option value="котлован">Котлован</option>
+                    <option value="Коммерческая">Тиҷоратӣ</option>
                 </select>
             </div>
             <div class="filter-group">
@@ -1012,17 +1326,18 @@
                     <option value="all">Ҳама колонкаҳо</option>
                 </select>
             </div>
-            <button class="btn-secondary btn-sm" onclick="resetFilters()">
+            <button class="btn-secondary btn-sm" onclick="resetFilters()" title="Тоза кардан">
                 <i class="fas fa-undo-alt"></i>
             </button>
         </div>
     </div>
 
+
     <!-- Kanban Board -->
     <div class="kanban-main">
         <div class="board-scroll" id="boardContainer">
             <div class="kanban-board" id="kanbanBoard">
-                <div class="loading"><i class="fas fa-spinner fa-pulse"></i> Боргирӣ...</div>
+                <div class="loading"><i class="fas fa-spinner fa-pulse"></i><span>Боргирӣ...</span></div>
             </div>
         </div>
     </div>
@@ -1043,7 +1358,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Номи доска</label>
-                    <input type="text" id="boardTitle" required>
+                    <input type="text" id="boardTitle" required placeholder="Номи доскаро ворид кунед">
                 </div>
                 <div class="form-group">
                     <label>Ранг</label>
@@ -1052,8 +1367,8 @@
                 <div class="form-group">
                     <label>Намуд</label>
                     <select id="boardIsPublic">
-                        <option value="1">🌍 Ҳамагӣ</option>
-                        <option value="0">🔒 Шахсӣ</option>
+                        <option value="1">Ҳамагӣ</option>
+                        <option value="0">Шахсӣ</option>
                     </select>
                 </div>
             </div>
@@ -1067,22 +1382,23 @@
 
 <!-- Modal: Select Board -->
 <div id="selectBoardModal" class="modal">
-    <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-content" style="max-width: 420px;">
         <div class="modal-header">
             <h2><i class="fas fa-columns"></i> Интихоби доска</h2>
             <span class="close" onclick="closeSelectBoardModal()">&times;</span>
         </div>
         <div class="modal-body">
             <div class="form-group">
-                <input type="text" id="boardSearch" placeholder="🔎 Ҷустуҷӯ..." onkeyup="filterBoardsList()">
+                <input type="text" id="boardSearch" placeholder="Ҷустуҷӯ..." onkeyup="filterBoardsList()">
             </div>
             <div id="boardsListContainer" style="max-height: 350px; overflow-y: auto;"></div>
-            <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="showAddBoardModal(); closeSelectBoardModal();">
+            <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="showAddBoardModal()">
                 <i class="fas fa-plus"></i> Доскаи нав
             </button>
         </div>
     </div>
 </div>
+
 
 <!-- Modal: Board Settings -->
 <div id="boardSettingsModal" class="modal">
@@ -1107,8 +1423,8 @@
                     <option value="0">Шахсӣ</option>
                 </select>
             </div>
-            <hr style="margin: 15px 0;">
-            <button class="btn-secondary" onclick="deleteCurrentBoard()" style="width: 100%;">
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid var(--border-color);">
+            <button class="btn-secondary" onclick="deleteCurrentBoard()" style="width: 100%; color: var(--accent-red); border-color: var(--accent-red);">
                 <i class="fas fa-trash-alt"></i> Нест кардан
             </button>
         </div>
@@ -1131,7 +1447,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Номи колонка</label>
-                    <input type="text" id="columnTitle" required>
+                    <input type="text" id="columnTitle" required placeholder="Номи колонкаро ворид кунед">
                 </div>
                 <div class="form-group">
                     <label>Ранг</label>
@@ -1143,8 +1459,9 @@
                         <div class="color-option" style="background:#8b5cf6;" data-color="#8b5cf6"></div>
                         <div class="color-option" style="background:#ec4899;" data-color="#ec4899"></div>
                         <div class="color-option" style="background:#06b6d4;" data-color="#06b6d4"></div>
+                        <div class="color-option" style="background:#6366f1;" data-color="#6366f1"></div>
                     </div>
-                    <input type="color" id="columnColor" value="#3b82f6" style="width: 100%; margin-top: 8px;">
+                    <input type="color" id="columnColor" value="#3b82f6" style="width: 100%; margin-top: 8px; height: 36px;">
                 </div>
             </div>
             <div class="modal-footer">
@@ -1154,6 +1471,7 @@
         </form>
     </div>
 </div>
+
 
 <!-- Modal: Request Add/Edit -->
 <div id="requestModal" class="modal modal-large">
@@ -1169,61 +1487,61 @@
                     <div class="form-group">
                         <label><i class="fas fa-building"></i> Намуд *</label>
                         <select id="propertyType" required>
-                            <option value="новостройка">🏗️ Навсохт</option>
-                            <option value="коробка">📦 Блок</option>
-                            <option value="котлован">🕳️ Котлован</option>
-                            <option value="Коммерческая">🏢 Тиҷоратӣ</option>
+                            <option value="новостройка">Навсохт</option>
+                            <option value="коробка">Блок</option>
+                            <option value="котлован">Котлован</option>
+                            <option value="Коммерческая">Тиҷоратӣ</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-map-marker-alt"></i> Суроға *</label>
-                        <input type="text" id="address" required>
+                        <input type="text" id="address" required placeholder="Суроғаро ворид кунед">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label><i class="fas fa-ruler-combined"></i> Масоҳат (м²) *</label>
-                        <input type="number" id="area" step="0.01" required>
+                        <input type="number" id="area" step="0.01" required placeholder="0.00">
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-door-open"></i> Ҳуҷраҳо *</label>
-                        <input type="number" id="rooms" required>
+                        <input type="number" id="rooms" required placeholder="0">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label><i class="fas fa-window-maximize"></i> Тирезаҳо *</label>
-                        <input type="number" id="windows" required>
+                        <input type="number" id="windows" required placeholder="0">
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-layer-group"></i> Ошёна *</label>
-                        <input type="number" id="floor" required>
+                        <input type="number" id="floor" required placeholder="0">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label><i class="fas fa-building"></i> Ошёнаҳои бино *</label>
-                        <input type="number" id="totalFloors" required>
+                        <input type="number" id="totalFloors" required placeholder="0">
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-credit-card"></i> Нархи умумӣ (C) *</label>
-                        <input type="number" id="totalPrice" required>
+                        <input type="number" id="totalPrice" required placeholder="0">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label><i class="fas fa-chart-line"></i> Нархи як м² (C) *</label>
-                        <input type="number" id="pricePerM2" required>
+                        <input type="number" id="pricePerM2" required placeholder="Автоматӣ ҳисоб мешавад">
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-phone-alt"></i> Телефон *</label>
-                        <input type="tel" id="phone" required>
+                        <input type="tel" id="phone" required placeholder="+992 XXX XX XX XX">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label><i class="fas fa-user"></i> Номи мизоҷ *</label>
-                        <input type="text" id="clientName" required>
+                        <input type="text" id="clientName" required placeholder="Ном ва насаб">
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-user-check"></i> Иҷрокунанда *</label>
@@ -1232,14 +1550,14 @@
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-comment"></i> Шарҳ</label>
-                    <textarea id="comment" rows="2"></textarea>
+                    <textarea id="comment" rows="3" placeholder="Маълумоти иловагӣ..."></textarea>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-paperclip"></i> Файлҳо</label>
                     <input type="file" id="requestFiles" multiple accept="image/*,video/*,application/pdf,.doc,.docx">
                     <div class="progress-container" id="progressContainer" style="display: none;">
                         <div class="progress-bar"><div class="progress-fill" id="uploadProgressFill"></div></div>
-                        <div id="progressText" style="font-size: 11px; margin-top: 4px; color: var(--text-secondary);"></div>
+                        <div id="progressText" style="font-size: 11px; margin-top: 6px; color: var(--text-secondary);"></div>
                     </div>
                     <div class="file-list" id="fileListPreview"></div>
                 </div>
@@ -1251,6 +1569,7 @@
         </form>
     </div>
 </div>
+
 
 <!-- Modal: View Request Details -->
 <div id="viewRequestModal" class="modal">
@@ -1279,15 +1598,39 @@ let currentUserRole = "{{ session.role }}";
 let draggedColumnId = null;
 let draggedCard = null;
 let filterTimeout = null;
-let currentFiles = [];
+
+// ==================== BUG FIX: PER-MODAL FILES ====================
+// Instead of a global currentFiles, we use modalFiles which is ALWAYS
+// freshly initialized when opening create/edit modal.
+// This prevents file leaking between requests.
+let modalFiles = [];
 
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', async () => {
     await loadBoards();
     loadUsersForSelect();
-    // Пас аз бор шудан, филтрҳои қаблиро аз cookie бор кун
+    setupAutoCalculate();
     setTimeout(loadFilters, 500);
 });
+
+// ==================== AUTO CALCULATE PRICE PER M2 ====================
+function setupAutoCalculate() {
+    const totalPriceInput = document.getElementById('totalPrice');
+    const areaInput = document.getElementById('area');
+    const pricePerM2Input = document.getElementById('pricePerM2');
+
+    function calculate() {
+        const totalPrice = parseFloat(totalPriceInput.value);
+        const area = parseFloat(areaInput.value);
+        if (totalPrice > 0 && area > 0) {
+            pricePerM2Input.value = Math.round(totalPrice / area);
+        }
+    }
+
+    totalPriceInput.addEventListener('input', calculate);
+    areaInput.addEventListener('input', calculate);
+}
+
 
 async function loadUsersForSelect() {
     const res = await fetch('/api/users/list');
@@ -1310,7 +1653,7 @@ async function loadBoards() {
         if (currentBoardId) await loadBoardData();
         renderBoardsPanel();
         updateBoardUI();
-        if (!allBoards.length) document.getElementById('kanbanBoard').innerHTML = '<div class="loading">📋 Доска нест. Доскаи аввалро эҷод кунед!</div>';
+        if (!allBoards.length) document.getElementById('kanbanBoard').innerHTML = '<div class="loading"><i class="fas fa-inbox" style="font-size:32px;"></i><span>Доска нест. Доскаи аввалро эҷод кунед!</span></div>';
     } catch(e) { console.error(e); }
 }
 
@@ -1344,13 +1687,13 @@ function renderBoardsPanel() {
             <div class="board-tab-icon" style="background:${b.color || '#3b82f6'}"><i class="fas fa-chalkboard"></i></div>
             <span class="board-tab-name">${escapeHtml(b.title)}</span>
         </div>
-    `).join('') + `<div class="board-tab create-board-tab" onclick="showAddBoardModal()"><i class="fas fa-plus"></i><span>Доскаи нав</span></div>`;
+    `).join('') + `<div class="board-tab create-board-tab" onclick="showAddBoardModal()"><i class="fas fa-plus"></i><span>Нав</span></div>`;
 }
 
 function updateBoardUI() {
     const b = allBoards.find(b => b.id === currentBoardId);
     if(b) {
-        document.getElementById('currentBoardTitle').innerHTML = `<i class="fas fa-chalkboard"></i> ${escapeHtml(b.title)}`;
+        document.getElementById('currentBoardTitle').textContent = b.title;
         document.getElementById('boardContainer').style.background = b.color || '#f8fafc';
     }
 }
@@ -1370,6 +1713,7 @@ function updateColumnFilter() {
     sel.innerHTML = '<option value="all">Ҳама колонкаҳо</option>' + allColumns.map(c => `<option value="${c.id}">${escapeHtml(c.title)}</option>`).join('');
     if (prev) sel.value = prev;
 }
+
 
 // ==================== RENDER ====================
 function renderKanbanBoard() {
@@ -1408,10 +1752,11 @@ function renderKanbanBoard() {
 
 function renderCards(columnId) {
     const requests = allRequests.filter(r => r.column_id === columnId).sort((a,b) => (a.order_index || 0) - (b.order_index || 0));
-    if (!requests.length) return '<div style="padding:16px; text-align:center; color:var(--text-tertiary); font-size:11px;"><i class="fas fa-inbox"></i> Заявка нест</div>';
+    if (!requests.length) return '<div class="empty-column-msg"><i class="fas fa-inbox"></i> Заявка нест</div>';
     
     return requests.map(req => {
-        const files = req.files ? JSON.parse(req.files) : [];
+        let files = [];
+        try { files = req.files ? JSON.parse(req.files) : []; } catch(e) { files = []; }
         return `
         <div class="request-card" data-request-id="${req.id}" data-order="${req.order_index || 0}" draggable="true"
              ondragstart="handleCardDragStart(event)" ondragend="handleCardDragEnd(event)"
@@ -1419,8 +1764,8 @@ function renderCards(columnId) {
             <div class="card-header">
                 <span class="card-name">${escapeHtml(req.client_name)}</span>
                 <div class="card-actions">
-                    <button onclick="event.stopPropagation(); editRequest(${req.id})"><i class="fas fa-pen"></i></button>
-                    <button onclick="event.stopPropagation(); deleteRequest(${req.id})"><i class="fas fa-trash"></i></button>
+                    <button onclick="event.stopPropagation(); editRequest(${req.id})" title="Таҳрир"><i class="fas fa-pen"></i></button>
+                    <button onclick="event.stopPropagation(); deleteRequest(${req.id})" title="Нест кардан"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
             <div class="card-phone"><i class="fas fa-phone-alt"></i> ${escapeHtml(req.phone)}</div>
@@ -1440,7 +1785,7 @@ function renderCards(columnId) {
                         ${f.type === 'image' ? `<img src="${f.path}" alt="preview">` : f.type === 'video' ? `<video src="${f.path}"></video>` : `<i class="fas fa-file-alt"></i>`}
                     </div>
                 `).join('')}
-                ${files.length > 3 ? `<div class="file-thumb" onclick="event.stopPropagation(); viewRequest(${req.id})"><i class="fas fa-plus"></i> ${files.length-3}</div>` : ''}
+                ${files.length > 3 ? `<div class="file-thumb" onclick="event.stopPropagation(); viewRequest(${req.id})"><span style="font-size:9px;font-weight:700;">+${files.length-3}</span></div>` : ''}
             </div>
             ` : ''}
             <div class="card-meta">
@@ -1450,6 +1795,7 @@ function renderCards(columnId) {
         </div>`;
     }).join('');
 }
+
 
 // ==================== DRAG & DROP ====================
 function handleColumnDragStart(e, columnId) {
@@ -1471,11 +1817,17 @@ function handleDragLeave(e) {
     if (col) col.classList.remove('drag-over');
 }
 
+function handleDragEnd(e) {
+    document.querySelectorAll('.kanban-column').forEach(c => c.classList.remove('drag-over'));
+    draggedColumnId = null;
+}
+
 async function handleColumnDrop(e) {
     e.preventDefault();
     const targetCol = e.target.closest('.kanban-column');
     if (!targetCol || !draggedColumnId) return;
     
+    targetCol.classList.remove('drag-over');
     const targetId = parseInt(targetCol.dataset.columnId);
     const sourceId = draggedColumnId;
     if (sourceId === targetId) return;
@@ -1504,6 +1856,7 @@ function handleCardDragStart(e) {
 
 function handleCardDragEnd(e) {
     document.querySelectorAll('.request-card').forEach(c => c.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom'));
+    document.querySelectorAll('.cards-container').forEach(c => c.classList.remove('drag-over'));
     draggedCard = null;
 }
 
@@ -1511,6 +1864,11 @@ function handleCardDragOver(e) {
     e.preventDefault();
     const card = e.target.closest('.request-card');
     const container = e.target.closest('.cards-container');
+    
+    // Clear previous highlights
+    document.querySelectorAll('.request-card.drag-over-top, .request-card.drag-over-bottom').forEach(c => {
+        if (c !== card) { c.classList.remove('drag-over-top', 'drag-over-bottom'); }
+    });
     
     if (card && draggedCard && card !== draggedCard) {
         const rect = card.getBoundingClientRect();
@@ -1523,8 +1881,6 @@ function handleCardDragOver(e) {
         } else {
             card.classList.add('drag-over-bottom');
         }
-    } else if (container && !card) {
-        container.classList.add('drag-over');
     }
 }
 
@@ -1561,9 +1917,9 @@ async function handleCardDrop(e) {
     showToast('Заявка ҷой иваз шуд');
 }
 
+
 // ==================== FILTERS ====================
 function getFloorNumber(floorValue) {
-    // Аз "16/18" фақат "16"-ро мехонем (пеш аз /)
     if (floorValue === null || floorValue === undefined) return null;
     const str = String(floorValue);
     const parts = str.split('/');
@@ -1599,16 +1955,13 @@ function filterRequests() {
             if (author !== 'all' && req.author_id != author) show = false;
             if (columnFilter !== 'all' && req.column_id != columnFilter) show = false;
             
-            // Нархи умумӣ
             if (priceMin !== null && req.total_price < priceMin) show = false;
             if (priceMax !== null && req.total_price > priceMax) show = false;
-            // Нархи м²
             if (priceM2Min !== null && req.price_per_m2 < priceM2Min) show = false;
             if (priceM2Max !== null && req.price_per_m2 > priceM2Max) show = false;
-            // Масоҳат
             if (areaMin !== null && req.area < areaMin) show = false;
             if (areaMax !== null && req.area > areaMax) show = false;
-            // Ошёна - танҳо рақами пеш аз / хонем
+            
             if (floorMin !== null || floorMax !== null) {
                 const floorNum = getFloorNumber(req.floor);
                 if (floorMin !== null && floorNum < floorMin) show = false;
@@ -1693,6 +2046,7 @@ function resetFilters() {
     showToast('Филтрҳо тоза шуданд');
 }
 
+
 // ==================== CRUD ====================
 async function createColumn(title, color) {
     const res = await fetch('/api/requests-columns', {
@@ -1772,6 +2126,7 @@ async function uploadFilesWithProgress(files, onProgress) {
     return uploaded;
 }
 
+
 // ==================== VIEW REQUEST WITH COPY ====================
 let currentViewRequestId = null;
 let currentViewFiles = [];
@@ -1781,7 +2136,8 @@ async function viewRequest(id) {
     if (!req) return;
     
     currentViewRequestId = id;
-    currentViewFiles = req.files ? JSON.parse(req.files) : [];
+    // BUG FIX: Deep clone files for this specific request
+    currentViewFiles = req.files ? JSON.parse(JSON.stringify(JSON.parse(req.files))) : [];
     
     renderViewModal(req, currentViewFiles);
     openModal('viewRequestModal');
@@ -1808,18 +2164,18 @@ function renderViewModal(req, files) {
             ${req.comment ? `<div class="info-item full-width"><div class="info-label"><i class="fas fa-comment"></i> Шарҳ</div><div class="info-value">${escapeHtml(req.comment)}</div></div>` : ''}
         </div>
         <div style="margin-bottom: 16px; display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="copy-btn" id="copyMainDataBtn"><i class="fas fa-copy"></i> Нусхабардории маълумотҳо</button>
-            <button class="copy-btn" id="sendWhatsappBtn" style="background:var(--accent-green);"><i class="fab fa-whatsapp"></i> Ватсап</button>
+            <button class="copy-btn" id="copyMainDataBtn"><i class="fas fa-copy"></i> Нусхабардорӣ</button>
+            <button class="copy-btn" id="sendWhatsappBtn" style="background:var(--accent-green);box-shadow:0 2px 8px rgba(16,185,129,0.25);"><i class="fab fa-whatsapp"></i> Ватсап</button>
         </div>
         ${files.length ? `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <strong><i class="fas fa-paperclip"></i> Файлҳо (${files.length})</strong>
-            <small style="color:var(--text-tertiary);font-size:10px;"><i class="fas fa-info-circle"></i> Аксҳоро кашед то ҷой иваз кунед</small>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <strong style="font-size:13px;"><i class="fas fa-paperclip"></i> Файлҳо (${files.length})</strong>
+            <small style="color:var(--text-tertiary);font-size:10px;"><i class="fas fa-info-circle"></i> Кашед барои иваз кардани ҷой</small>
         </div>
         <div class="media-gallery" id="mediaGallery">
             ${files.map((f, idx) => `
                 <div class="media-item" draggable="true" data-idx="${idx}" data-file-path="${f.path}" data-file-name="${escapeHtml(f.name || '')}" style="cursor:grab;">
-                    <div style="position:absolute;top:2px;left:4px;font-size:9px;background:rgba(0,0,0,0.6);color:white;border-radius:3px;padding:1px 4px;">${idx+1}</div>
+                    <div style="position:absolute;top:4px;left:6px;font-size:9px;background:rgba(15,23,42,0.7);color:white;border-radius:4px;padding:2px 5px;font-weight:600;">${idx+1}</div>
                     ${f.type === 'image' ? `<img src="${f.path}" alt="${escapeHtml(f.name || '')}" onclick="window.open('${f.path}', '_blank')">` : 
                       f.type === 'video' ? `<video src="${f.path}" onclick="window.open('${f.path}', '_blank')"></video>` : 
                       `<div class="file-icon" onclick="window.open('${f.path}', '_blank')"><i class="fas fa-file-alt"></i></div>`}
@@ -1831,12 +2187,11 @@ function renderViewModal(req, files) {
     `;
     document.getElementById('viewRequestContent').innerHTML = content;
     
-    // Кнопкаи нусхабардории маълумотҳо
+    // Copy data button
     document.getElementById('copyMainDataBtn').addEventListener('click', () => {
         navigator.clipboard.writeText(copyData).then(() => {
             showToast('Маълумотҳо нусхабардорӣ шуданд');
         }).catch(() => {
-            // fallback
             const ta = document.createElement('textarea');
             ta.value = copyData;
             document.body.appendChild(ta);
@@ -1847,16 +2202,14 @@ function renderViewModal(req, files) {
         });
     });
     
-    // Кнопкаи WhatsApp - ҳама аксҳоро равон кун
+    // WhatsApp button
     document.getElementById('sendWhatsappBtn').addEventListener('click', async () => {
         const imageFiles = currentViewFiles.filter(f => f.type === 'image');
         const waText = encodeURIComponent(copyData);
         
         if (imageFiles.length > 0) {
-            // Матнро нусхабардорӣ кун
-            try {
-                await navigator.clipboard.writeText(copyData);
-            } catch(e) {
+            try { await navigator.clipboard.writeText(copyData); }
+            catch(e) {
                 const ta = document.createElement('textarea');
                 ta.value = copyData;
                 document.body.appendChild(ta);
@@ -1865,14 +2218,10 @@ function renderViewModal(req, files) {
                 ta.remove();
             }
             showToast('Матн нусхабардорӣ шуд! WhatsApp кушода мешавад...', 2000);
-            // WhatsApp-ро бо матн кушо - аксҳоро баъд дастӣ замима кун
             setTimeout(() => {
                 window.open(`https://wa.me/?text=${waText}`, '_blank');
-                // Ҳар акси дигарро ба tab нав кушо барои осон замима кардан
                 imageFiles.forEach((f, i) => {
-                    setTimeout(() => {
-                        window.open(f.path, '_blank');
-                    }, 300 * (i + 1));
+                    setTimeout(() => { window.open(f.path, '_blank'); }, 300 * (i + 1));
                 });
             }, 600);
         } else {
@@ -1880,21 +2229,18 @@ function renderViewModal(req, files) {
         }
     });
     
-    // Нусхабардории аксҳо - ислоҳшуда
+    // Copy media buttons
     document.querySelectorAll('.copy-media-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             e.stopPropagation();
             const item = btn.closest('.media-item');
             const filePath = item.dataset.filePath;
-            const fileName = item.dataset.fileName;
             try {
                 const response = await fetch(filePath);
                 const blob = await response.blob();
-                // Фақат PNG-ро ClipboardItem қабул мекунад - convert мекунем
                 if (blob.type === 'image/png') {
                     await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                 } else if (blob.type.startsWith('image/')) {
-                    // JPEG ва дигарро ба PNG табдил медиҳем
                     const imgBitmap = await createImageBitmap(blob);
                     const canvas = document.createElement('canvas');
                     canvas.width = imgBitmap.width;
@@ -1906,18 +2252,19 @@ function renderViewModal(req, files) {
                     showToast('Ин намуди файл нусхабардорӣ намешавад', 2000);
                     return;
                 }
-                showToast(`Акс нусхабардорӣ шуд`);
+                showToast('Акс нусхабардорӣ шуд');
             } catch (err) {
                 console.error(err);
-                showToast('Хатогӣ: браузер иҷозат надод. Аксро дастӣ нусхабардорӣ кунед.', 3000);
+                showToast('Хатогӣ: аксро дастӣ нусхабардорӣ кунед', 3000);
                 window.open(filePath, '_blank');
             }
         });
     });
     
-    // Drag & Drop барои иваз кардани ҷойи аксҳо
+    // Media gallery drag & drop
     initMediaGalleryDnD(req);
 }
+
 
 function initMediaGalleryDnD(req) {
     const gallery = document.getElementById('mediaGallery');
@@ -1932,7 +2279,7 @@ function initMediaGalleryDnD(req) {
             e.dataTransfer.effectAllowed = 'move';
         });
         item.addEventListener('dragend', () => { item.style.opacity = '1'; });
-        item.addEventListener('dragover', (e) => { e.preventDefault(); item.style.border = '2px dashed var(--accent-blue)'; });
+        item.addEventListener('dragover', (e) => { e.preventDefault(); item.style.border = '2px dashed var(--accent-blue)'; item.style.borderRadius = 'var(--radius-md)'; });
         item.addEventListener('dragleave', () => { item.style.border = ''; });
         item.addEventListener('drop', async (e) => {
             e.preventDefault();
@@ -1940,15 +2287,12 @@ function initMediaGalleryDnD(req) {
             const targetIdx = parseInt(item.dataset.idx);
             if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
             
-            // Ҷойҳоро иваз кун
             const newFiles = [...currentViewFiles];
             const [moved] = newFiles.splice(dragSrcIdx, 1);
             newFiles.splice(targetIdx, 0, moved);
             currentViewFiles = newFiles;
             
-            // Серверга сабт кун
             await updateRequestData(req.id, { files: currentViewFiles });
-            // Дар allRequests нав кун
             const idx = allRequests.findIndex(r => r.id === req.id);
             if (idx !== -1) allRequests[idx].files = JSON.stringify(currentViewFiles);
             
@@ -1971,6 +2315,7 @@ async function deleteRequestFromView() {
     }
 }
 
+
 // ==================== MODALS ====================
 function showAddBoardModal() {
     document.getElementById('boardModalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Доскаи нав';
@@ -1983,7 +2328,6 @@ function showSelectBoardModal() {
     loadBoardsList();
     openModal('selectBoardModal');
 }
-
 
 function showBoardSettings() {
     const b = allBoards.find(b => b.id === currentBoardId);
@@ -2011,18 +2355,34 @@ function showAddRequestModal() {
     document.getElementById('requestId').value = '';
     document.getElementById('requestForm').reset();
     document.getElementById('fileListPreview').innerHTML = '';
-    currentFiles = [];
+    // BUG FIX: Always create a brand new empty array for new requests
+    modalFiles = [];
     openModal('requestModal');
 }
 
-function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function openModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = 'flex';
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+}
+
+function closeModal(id) {
+    const modal = document.getElementById(id);
+    modal.style.display = 'none';
+    modal.classList.remove('active');
+    // Only remove body lock if no other modals are open
+    const anyOpen = document.querySelector('.modal.active');
+    if (!anyOpen) {
+        document.body.classList.remove('modal-open');
+    }
+}
 
 function closeBoardModal() { closeModal('boardModal'); }
 function closeSelectBoardModal() { closeModal('selectBoardModal'); }
 function closeBoardSettingsModal() { closeModal('boardSettingsModal'); }
 function closeColumnModal() { closeModal('columnModal'); }
-function closeRequestModal() { closeModal('requestModal'); }
+function closeRequestModal() { closeModal('requestModal'); modalFiles = []; }
 function closeViewModal() { closeModal('viewRequestModal'); }
 
 function editColumn(id) {
@@ -2035,6 +2395,7 @@ function editColumn(id) {
         openModal('columnModal');
     }
 }
+
 
 function editRequest(id) {
     const req = allRequests.find(r => r.id === id);
@@ -2056,73 +2417,66 @@ function editRequest(id) {
     document.getElementById('executorId').value = req.executor_id;
     document.getElementById('comment').value = req.comment || '';
     
-    currentFiles = [];
-    
+    // BUG FIX: Deep clone the files array for THIS specific request
+    // This ensures editing one request's files never affects another request
+    modalFiles = [];
     if (req.files) {
-        const files = JSON.parse(req.files);
-        files.forEach(f => currentFiles.push(f));
+        try {
+            const parsed = JSON.parse(req.files);
+            modalFiles = JSON.parse(JSON.stringify(parsed)); // Deep clone
+        } catch(e) {
+            modalFiles = [];
+        }
     }
     
-    // Аксҳои мавҷударо нишон диҳад бо имкони ҳазф
-    const preview = document.getElementById('fileListPreview');
-    preview.innerHTML = '';
-    currentFiles.forEach((f, idx) => {
-        const item = document.createElement('div');
-        item.className = 'file-item';
-        item.style.cssText = 'position:relative; display:inline-flex; flex-direction:column; align-items:center; gap:4px;';
-        if (f.type === 'image') {
-            item.innerHTML = `
-                <img src="${f.path}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border-color);">
-                <button type="button" onclick="removeExistingFile(${idx})" style="background:var(--accent-red);color:white;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:10px;"><i class="fas fa-trash"></i> Ҳазф</button>
-            `;
-        } else {
-            item.innerHTML = `
-                <i class="fas fa-file-alt" style="font-size:24px;color:var(--accent-blue);"></i>
-                <span style="font-size:10px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(f.name || 'файл')}</span>
-                <button type="button" onclick="removeExistingFile(${idx})" style="background:var(--accent-red);color:white;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:10px;"><i class="fas fa-trash"></i> Ҳазф</button>
-            `;
-        }
-        preview.appendChild(item);
-    });
-    
+    renderFileListPreview();
     openModal('requestModal');
 }
 
-function removeExistingFile(idx) {
-    currentFiles.splice(idx, 1);
-    // Re-render preview
-    const req = { files: JSON.stringify(currentFiles) };
+function renderFileListPreview() {
     const preview = document.getElementById('fileListPreview');
     preview.innerHTML = '';
-    currentFiles.forEach((f, i) => {
+    modalFiles.forEach((f, idx) => {
         const item = document.createElement('div');
         item.className = 'file-item';
-        item.style.cssText = 'position:relative; display:inline-flex; flex-direction:column; align-items:center; gap:4px;';
+        item.style.cssText = 'position:relative; display:inline-flex; flex-direction:column; align-items:center; gap:6px; padding:8px;';
         if (f.type === 'image') {
             item.innerHTML = `
-                <img src="${f.path}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border-color);">
-                <button type="button" onclick="removeExistingFile(${i})" style="background:var(--accent-red);color:white;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:10px;"><i class="fas fa-trash"></i> Ҳазф</button>
+                <img src="${f.path}" style="width:64px;height:64px;object-fit:cover;border-radius:8px;border:1.5px solid var(--border-color);">
+                <button type="button" onclick="removeExistingFile(${idx})" style="background:var(--accent-red);color:white;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:10px;font-weight:500;transition:var(--transition-fast);"><i class="fas fa-trash"></i></button>
+            `;
+        } else if (f.type === 'video') {
+            item.innerHTML = `
+                <video src="${f.path}" style="width:64px;height:64px;object-fit:cover;border-radius:8px;border:1.5px solid var(--border-color);"></video>
+                <button type="button" onclick="removeExistingFile(${idx})" style="background:var(--accent-red);color:white;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:10px;font-weight:500;"><i class="fas fa-trash"></i></button>
             `;
         } else {
             item.innerHTML = `
-                <i class="fas fa-file-alt" style="font-size:24px;color:var(--accent-blue);"></i>
+                <div style="width:64px;height:64px;background:var(--bg-tertiary);border-radius:8px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border-color);"><i class="fas fa-file-alt" style="font-size:24px;color:var(--accent-blue);"></i></div>
                 <span style="font-size:10px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(f.name || 'файл')}</span>
-                <button type="button" onclick="removeExistingFile(${i})" style="background:var(--accent-red);color:white;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:10px;"><i class="fas fa-trash"></i> Ҳазф</button>
+                <button type="button" onclick="removeExistingFile(${idx})" style="background:var(--accent-red);color:white;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:10px;font-weight:500;"><i class="fas fa-trash"></i></button>
             `;
         }
         preview.appendChild(item);
     });
 }
+
+function removeExistingFile(idx) {
+    // BUG FIX: Only modifies the local modalFiles array, not any shared reference
+    modalFiles.splice(idx, 1);
+    renderFileListPreview();
+}
+
 
 function loadBoardsList() {
     const c = document.getElementById('boardsListContainer');
     c.innerHTML = allBoards.map(b => `
-        <div class="board-tab ${currentBoardId === b.id ? 'active' : ''}" style="margin-bottom:8px; display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; cursor:pointer;" onclick="selectBoard(${b.id})">
+        <div class="board-tab ${currentBoardId === b.id ? 'active' : ''}" style="margin-bottom:8px; display:flex; align-items:center; gap:10px; padding:12px; border-radius:var(--radius-md); cursor:pointer;" onclick="selectBoard(${b.id})">
             <div class="board-tab-icon" style="background:${b.color || '#3b82f6'}"><i class="fas fa-chalkboard"></i></div>
-            <span style="flex:1">${escapeHtml(b.title)}</span>
+            <span style="flex:1;font-weight:500;">${escapeHtml(b.title)}</span>
         </div>
     `).join('');
-    if(!c.innerHTML) c.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-tertiary);">Доска нест</div>';
+    if(!c.innerHTML) c.innerHTML = '<div style="padding:24px; text-align:center; color:var(--text-tertiary);">Доска нест</div>';
 }
 
 function filterBoardsList() {
@@ -2175,10 +2529,10 @@ function updateTotalCount() { document.getElementById('totalRequestsCount').text
 function showToast(msg, duration = 2500) {
     const t = document.createElement('div');
     t.className = 'toast';
-    t.innerHTML = `<i class="fas fa-check-circle" style="margin-right:6px;"></i>${msg}`;
+    t.innerHTML = `<i class="fas fa-check-circle" style="color:var(--accent-green);"></i>${msg}`;
     document.body.appendChild(t);
     setTimeout(() => { 
-        t.style.animation = 'slideOutRight 0.3s ease'; 
+        t.style.animation = 'slideOutRight 0.3s ease forwards'; 
         setTimeout(() => t.remove(), 300); 
     }, duration);
 }
@@ -2187,8 +2541,9 @@ function formatPrice(price) { return new Intl.NumberFormat('ru-RU').format(Math.
 
 function escapeHtml(str) {
     if (!str) return '';
-    return String(str).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]);
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
 }
+
 
 // ==================== FORMS ====================
 document.getElementById('boardForm').addEventListener('submit', async (e) => {
@@ -2218,7 +2573,9 @@ document.getElementById('requestForm').addEventListener('submit', async (e) => {
     
     const requestId = document.getElementById('requestId').value;
     const filesInput = document.getElementById('requestFiles');
-    let uploadedFiles = [...currentFiles];
+    
+    // BUG FIX: Start with a COPY of modalFiles (which is already isolated per-request)
+    let uploadedFiles = [...modalFiles];
     
     if (filesInput.files.length) {
         const progressContainer = document.getElementById('progressContainer');
@@ -2226,10 +2583,13 @@ document.getElementById('requestForm').addEventListener('submit', async (e) => {
         const progressText = document.getElementById('progressText');
         progressContainer.style.display = 'block';
         
-        uploadedFiles = await uploadFilesWithProgress(Array.from(filesInput.files), (index, total, name, percent) => {
+        const newUploads = await uploadFilesWithProgress(Array.from(filesInput.files), (index, total, name, percent) => {
             progressFill.style.width = `${percent}%`;
             progressText.textContent = `Боргузорӣ: ${name} - ${percent}% (${index+1}/${total})`;
         });
+        
+        // BUG FIX: Append new uploads to existing files (not replace)
+        uploadedFiles = [...uploadedFiles, ...newUploads];
         
         progressContainer.style.display = 'none';
         progressFill.style.width = '0%';
@@ -2239,7 +2599,6 @@ document.getElementById('requestForm').addEventListener('submit', async (e) => {
     const firstColumnId = allColumns.length ? allColumns[0].id : null;
     if (!firstColumnId && !requestId) { alert('Аввал колонка эҷод кунед'); return; }
     
-    // Барои заявкаи нав, order_index = 0 (дар болотарин ҷой)
     const data = {
         property_type: document.getElementById('propertyType').value,
         address: document.getElementById('address').value,
@@ -2276,15 +2635,30 @@ document.getElementById('requestForm').addEventListener('submit', async (e) => {
 // Color palette click
 document.querySelectorAll('.color-option').forEach(opt => {
     opt.addEventListener('click', () => {
+        document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
         document.getElementById('columnColor').value = opt.dataset.color;
     });
 });
 
+// Escape key to close modals
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeBoardModal(); closeSelectBoardModal(); closeBoardSettingsModal();
         closeColumnModal(); closeRequestModal(); closeViewModal();
     }
+});
+
+// Close modal when clicking backdrop
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+            const anyOpen = document.querySelector('.modal.active');
+            if (!anyOpen) document.body.classList.remove('modal-open');
+        }
+    });
 });
 </script>
 {% endblock %}
